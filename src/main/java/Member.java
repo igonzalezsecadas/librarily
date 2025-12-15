@@ -1,9 +1,14 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class Member {
     private String name;
     private String address;
     private String id;
     private int telephone;
     private String email;
+    private Set<Loan> memberActiveLoans;
+
 
     public Member(String name, String id, String address, int telephone, String email) {
         this.name = name;
@@ -11,6 +16,7 @@ public class Member {
         this.id = id;
         this.telephone = telephone;
         this.email = email;
+        memberActiveLoans = new HashSet<>();
     }
 
     public String getName() {
@@ -53,7 +59,14 @@ public class Member {
         this.email = email;
     }
 
-    @Override
+    public void newLoan(Book book) {
+        memberActiveLoans.add(new Loan(book));
+    }
+
+    public void listActiveLoans() {
+        
+    }
+     @Override
     public String toString() {
         return "Member{" +
                 "name='" + name + '\'' +

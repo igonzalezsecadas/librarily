@@ -88,21 +88,12 @@ public class Book {
         }
     }
 
-    public boolean returnBook() {
-        if (availableCopies < totalCopies) {
-            availableCopies++;
-            return true;
-        } else {
-            return false;
-        }
+    public void returnBook() {
+        availableCopies++;
     }
 
     public int lendedCopies() {
         return totalCopies - availableCopies;
-    }
-
-    public boolean isAvailable() {
-        return availableCopies > 0;
     }
 
     @Override

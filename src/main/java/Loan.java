@@ -1,8 +1,9 @@
 import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
 public class Loan {
+    private static int loanCounter;
+    private int id;
     private Book book;
     private Member member;
     private LocalDate loanDate;
@@ -12,20 +13,43 @@ public class Loan {
     private double penalty;
 
     public Loan(Book book, Member member) {
-        this.book = book;
-        this.member = member;
-        this.loanDate = LocalDate.now();
-        this.dueDate = loanDate.plusDays(14);
-        this.returnDate = null;
-        this.active = true;
-        this.penalty = 0;
+        if (book.lendBook()) {
+            this.id = loanCounter++;
+            this.member = member;
+            this.loanDate = LocalDate.now();
+            this.dueDate = loanDate.plusDays(14);
+            this.returnDate = null;
+            this.active = true;
+            this.penalty = 0;
+        } else {
+            throw new UnsupportedOperationException("No available copies for this book");
+        }
+    }
+
+    public void setLoanInactive() {
+        book.returnBook();
+        active = false;
+        returnDate = LocalDate.now();
+        penalty += computePenalty();
     }
 
     public boolean isPastReturnDate() {
         return LocalDate.now().isAfter(dueDate);
     }
 
-    public void computePenalty() {
+    public double computePenalty() {
+        if(isPastReturnDate()) {
+            return ChronoUnit.DAYS.between(dueDate, returnDate) * Library.PENALTY_PER_DAY;
+        }
+        else return 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Member getMember() {
@@ -87,7 +111,8 @@ public class Loan {
     @Override
     public String toString() {
         return "Loan{" +
-                "book=" + book +
+                "id=" + id +
+                ", book=" + book +
                 ", member=" + member +
                 ", loanDate=" + loanDate +
                 ", dueDate=" + dueDate +

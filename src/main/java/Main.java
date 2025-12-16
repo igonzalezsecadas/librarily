@@ -18,6 +18,9 @@ public class Main {
             switch (option) {
                 case 1:
                     memberManagement(libraryRecords);
+                    break;
+                case 2:
+                    bookManagement(books);
             }
         } while (option != 4);
 
@@ -60,5 +63,24 @@ public class Main {
                     break;
             }
         } while (option != 4);
+    }
+
+    public static void bookManagement(Catalogue cat) {
+        Scanner in = new Scanner(System.in);
+        int option = 0;
+
+        do {
+            System.out.println("""
+                    1 - Add new book
+                    2 - Search books by ISBN
+                    3 - Search books by Title
+                    4 - Search books by Author
+                    5 - Search books by Publisher
+                    6 - Remove book
+                    7 - Modify book information""");
+
+            option = Integer.parseInt(in.nextLine());
+
+        } while (option != 8);
     }
 }
